@@ -1,0 +1,15 @@
+{
+    "name": "vehicle-service",
+    "description": "vehicle-service component",
+    "local": [],
+    "scripts": ["index.js"],
+    "main": "index.js",
+    "dependencies": {
+        "serandomps/async": "master",
+        "serandomps/utils": "master",
+        "serandomps/serand": "master",
+        "serandomps/autos-utils": "master",
+        "serandomps/vehicle-make-service": "master",
+        "serandomps/vehicle-model-service": "master"
+    }
+}
