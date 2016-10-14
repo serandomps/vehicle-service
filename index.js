@@ -10,7 +10,7 @@ var query = function (options) {
         return '';
     }
     var data = {
-        criteria: {}
+        query: {}
     };
     var name;
     var value;
@@ -22,7 +22,7 @@ var query = function (options) {
             continue;
         }
         value = options[name];
-        data.criteria[name] = value instanceof Array ? {$in: value} : value;
+        data.query[name] = value instanceof Array ? {$in: value} : value;
     }
     return '?data=' + JSON.stringify(data);
 };
