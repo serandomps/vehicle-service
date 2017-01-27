@@ -2,8 +2,8 @@ var async = require('async');
 var utils = require('utils');
 var serand = require('serand');
 var autils = require('autos-utils');
-var Make = require('vehicle-make-service');
-var Model = require('vehicle-model-service');
+var Make = require('vehicle-makes-service');
+var Model = require('vehicle-models-service');
 
 var query = function (options) {
     if (!options) {

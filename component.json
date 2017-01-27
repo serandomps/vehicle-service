@@ -1,6 +1,6 @@
 {
-    "name": "vehicle-service",
-    "description": "vehicle-service component",
+    "name": "vehicles-service",
+    "description": "vehicles-service component",
     "local": [],
     "scripts": ["index.js"],
     "main": "index.js",
@@ -9,7 +9,7 @@
         "serandomps/utils": "master",
         "serandomps/serand": "master",
         "serandomps/autos-utils": "master",
-        "serandomps/vehicle-make-service": "master",
-        "serandomps/vehicle-model-service": "master"
+        "serandomps/vehicle-makes-service": "master",
+        "serandomps/vehicle-models-service": "master"
     }
 }
