@@ -123,3 +123,17 @@ exports.find = function (options, done) {
         }
     });
 };
+
+exports.remove = function (options, done) {
+    $.ajax({
+        method: 'DELETE',
+        url: utils.resolve('autos://apis/v/vehicles/' + options.id),
+        dataType: 'json',
+        success: function (data) {
+            done();
+        },
+        error: function () {
+            done(new Error('error retrieving vehicle ' + options.id));
+        }
+    });
+};
