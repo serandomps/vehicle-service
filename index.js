@@ -27,26 +27,36 @@ var query = function (options) {
     return '?data=' + JSON.stringify(data);
 };
 
-var cdn = function (size, items) {
-    if (!items) {
-        return autils.cdn('images/' + size + '/');
+var cdn = function (size, items, done) {
+    if (!size) {
+        return done();
     }
-    var o = items instanceof Array ? items : [items];
-    o.forEach(function (item) {
+    items = items instanceof Array ? items : [items];
+    async.each(items, function (item, did) {
         var photos = item.photos;
         if (!photos) {
-            return;
+            return did();
         }
         var o = [];
-        photos.forEach(function (photo) {
-            o.push({
-                id: photo,
-                url: autils.cdn('images/' + size + '/' + photo)
+        async.each(photos, function (photo, pushed) {
+            autils.cdn('images/' + size + '/' + photo, function (err, url) {
+                if (err) {
+                    return pushed(err);
+                }
+                o.push({
+                    id: photo,
+                    url: url
+                });
+                pushed();
             });
+        }, function (err) {
+            if (err) {
+                return did(err);
+            }
+            item.photos = o;
+            did();
         });
-        item.photos = o;
-    });
-    return items;
+    }, done);
 };
 
 var makes = function (vehicles, done) {
@@ -80,19 +90,21 @@ var models = function (vehicles, done) {
 };
 
 var update = function (vehicles, options, done) {
-    if (options.images) {
-        cdn(options.images, vehicles);
-    }
-    makes(vehicles, function (err, vehicles) {
+    cdn(options.images, vehicles, function (err) {
         if (err) {
             return done(err);
         }
-        models(vehicles, function (err, vehicles) {
+        makes(vehicles, function (err, vehicles) {
             if (err) {
                 return done(err);
             }
-            done(null, vehicles);
-        })
+            models(vehicles, function (err, vehicles) {
+                if (err) {
+                    return done(err);
+                }
+                done(null, vehicles);
+            });
+        });
     });
 };
 
