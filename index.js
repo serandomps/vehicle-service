@@ -116,8 +116,8 @@ exports.findOne = function (options, done) {
         success: function (data) {
             update(data, options, done);
         },
-        error: function () {
-            done(new Error('error retrieving vehicle ' + options.id));
+        error: function (xhr, status, err) {
+            done(err || status || xhr);
         }
     });
 };
@@ -130,8 +130,8 @@ exports.find = function (options, done) {
         success: function (data) {
             update(data, options, done);
         },
-        error: function () {
-            done(new Error('error retrieving vehicles'));
+        error: function (xhr, status, err) {
+            done(err || status || xhr);
         }
     });
 };
@@ -142,10 +142,10 @@ exports.remove = function (options, done) {
         url: utils.resolve('autos://apis/v/vehicles/' + options.id),
         dataType: 'json',
         success: function (data) {
-            done();
+            done(null, data);
         },
-        error: function () {
-            done(new Error('error retrieving vehicle ' + options.id));
+        error: function (xhr, status, err) {
+            done(err || status || xhr);
         }
     });
 };
