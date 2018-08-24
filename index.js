@@ -111,7 +111,7 @@ var update = function (vehicles, options, done) {
 exports.findOne = function (options, done) {
     $.ajax({
         method: 'GET',
-        url: utils.resolve('autos://apis/v/vehicles/' + options.id),
+        url: utils.resolve('autos:///apis/v/vehicles/' + options.id),
         dataType: 'json',
         success: function (data) {
             update(data, options, done);
@@ -125,7 +125,7 @@ exports.findOne = function (options, done) {
 exports.find = function (options, done) {
     $.ajax({
         method: 'GET',
-        url: utils.resolve('autos://apis/v/vehicles' + query(options.query)),
+        url: utils.resolve('autos:///apis/v/vehicles' + query(options.query)),
         dataType: 'json',
         success: function (data) {
             update(data, options, done);
@@ -139,7 +139,7 @@ exports.find = function (options, done) {
 exports.remove = function (options, done) {
     $.ajax({
         method: 'DELETE',
-        url: utils.resolve('autos://apis/v/vehicles/' + options.id),
+        url: utils.resolve('autos:///apis/v/vehicles/' + options.id),
         dataType: 'json',
         success: function (data) {
             done(null, data);
