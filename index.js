@@ -53,15 +53,14 @@ var cdn = function (size, items, done) {
             if (err) {
                 return did(err);
             }
-            item.photos = o;
+            item._.photos = o;
             did();
         });
     }, done);
 };
 
 var makes = function (vehicles, done) {
-    var o = vehicles instanceof Array ? vehicles : [vehicles];
-    async.each(o, function (vehicle, updated) {
+    async.each(vehicles, function (vehicle, updated) {
         Make.findOne(vehicle.make, function (err, make) {
             if (err) {
                 return updated(err);
@@ -75,8 +74,7 @@ var makes = function (vehicles, done) {
 };
 
 var models = function (vehicles, done) {
-    var o = vehicles instanceof Array ? vehicles : [vehicles];
-    async.each(o, function (vehicle, updated) {
+    async.each(vehicles, function (vehicle, updated) {
         Model.findOne(vehicle.model, function (err, model) {
             if (err) {
                 return updated(err);
@@ -90,6 +88,9 @@ var models = function (vehicles, done) {
 };
 
 var update = function (vehicles, options, done) {
+    vehicles.forEach(function (vehicle) {
+        vehicle._ = {};
+    });
     cdn(options.images, vehicles, function (err) {
         if (err) {
             return done(err);
@@ -114,7 +115,9 @@ exports.findOne = function (options, done) {
         url: utils.resolve('autos:///apis/v/vehicles/' + options.id),
         dataType: 'json',
         success: function (data) {
-            update(data, options, done);
+            update([data], options, function (err, vehicles) {
+                done(err, data);
+            });
         },
         error: function (xhr, status, err) {
             done(err || status || xhr);
