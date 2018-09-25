@@ -1,31 +1,10 @@
 var async = require('async');
 var utils = require('utils');
 var serand = require('serand');
+var utils = require('utils');
 var autils = require('autos-utils');
 var Make = require('vehicle-makes-service');
 var Model = require('vehicle-models-service');
-
-var query = function (options) {
-    if (!options) {
-        return '';
-    }
-    var data = {
-        query: {}
-    };
-    var name;
-    var value;
-    for (name in options) {
-        if (!options.hasOwnProperty(name)) {
-            continue;
-        }
-        if (name === '_') {
-            continue;
-        }
-        value = options[name];
-        data.query[name] = value instanceof Array ? {$in: value} : value;
-    }
-    return '?data=' + JSON.stringify(data);
-};
 
 var cdn = function (size, items, done) {
     if (!size) {
@@ -128,7 +107,7 @@ exports.findOne = function (options, done) {
 exports.find = function (options, done) {
     $.ajax({
         method: 'GET',
-        url: utils.resolve('autos:///apis/v/vehicles' + query(options.query)),
+        url: utils.resolve('autos:///apis/v/vehicles' + utils.query(options.query)),
         dataType: 'json',
         success: function (data) {
             update(data, options, done);
