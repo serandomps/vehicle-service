@@ -1,8 +1,6 @@
 var async = require('async');
 var utils = require('utils');
 var serand = require('serand');
-var utils = require('utils');
-var autils = require('autos-utils');
 var Make = require('vehicle-makes-service');
 var Model = require('vehicle-models-service');
 
@@ -12,19 +10,21 @@ var cdn = function (size, items, done) {
     }
     items = items instanceof Array ? items : [items];
     async.each(items, function (item, did) {
-        var photos = item.photos;
-        if (!photos) {
+        var images = item.images;
+        if (!images) {
             return did();
         }
         var o = [];
-        async.each(photos, function (photo, pushed) {
-            autils.cdn('images/' + size + '/' + photo, function (err, url) {
+        var index = 0;
+        async.each(images, function (image, pushed) {
+            utils.cdn('images', '/images/' + size + '/' + image, function (err, url) {
                 if (err) {
                     return pushed(err);
                 }
                 o.push({
-                    id: photo,
-                    url: url
+                    id: image,
+                    url: url,
+                    index: index++
                 });
                 pushed();
             });
@@ -32,7 +32,7 @@ var cdn = function (size, items, done) {
             if (err) {
                 return did(err);
             }
-            item._.photos = o;
+            item._.images = o;
             did();
         });
     }, done);
