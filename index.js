@@ -44,7 +44,7 @@ var makes = function (vehicles, done) {
             if (err) {
                 return updated(err);
             }
-            vehicle.make = make;
+            vehicle._.make = make;
             updated();
         })
     }, function (err) {
@@ -58,7 +58,7 @@ var models = function (vehicles, done) {
             if (err) {
                 return updated(err);
             }
-            vehicle.model = model;
+            vehicle._.model = model;
             updated();
         })
     }, function (err) {
