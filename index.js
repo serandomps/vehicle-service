@@ -70,7 +70,7 @@ var update = function (vehicles, options, done) {
     vehicles.forEach(function (vehicle) {
         vehicle._ = {};
     });
-    cdn(options.images, vehicles, function (err) {
+    cdn(options.resolution, vehicles, function (err) {
         if (err) {
             return done(err);
         }
