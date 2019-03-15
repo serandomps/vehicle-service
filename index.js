@@ -107,7 +107,7 @@ exports.findOne = function (options, done) {
 exports.find = function (options, done) {
     $.ajax({
         method: 'GET',
-        url: utils.resolve('autos:///apis/v/vehicles' + utils.query(options.query)),
+        url: utils.resolve('autos:///apis/v/vehicles' + utils.data(options.query)),
         dataType: 'json',
         success: function (data) {
             update(data, options, done);
